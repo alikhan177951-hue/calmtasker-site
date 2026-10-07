@@ -1,17 +1,29 @@
 {
-  "name": "calmtasker-site",
+  "name": "kaamtasker-site",
   "private": true,
-  "version": "1.0.0",
-  "description": "KaamTasker (kaamtasker.com) studio homepage. Pronounced CalmTasker / ComTasker. Built with sitemd.",
+  "version": "2.0.0",
+  "description": "KaamTasker (kaamtasker.com) studio homepage. Pronounced CalmTasker / ComTasker.",
+  "type": "module",
   "scripts": {
-    "dev": "sitemd launch",
-    "build": "node scripts/build-site.mjs",
-    "preview": "npx --yes serve dist -l 4173"
+    "dev": "vite",
+    "build": "node scripts/generate-og.mjs && vite build",
+    "preview": "vite preview --port 4173"
   },
   "engines": {
     "node": ">=18"
   },
   "dependencies": {
-    "@sitemd-cc/sitemd": "0.2.2"
+    "framer-motion": "^12.23.12",
+    "lucide-react": "^0.544.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.0.2",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "sharp": "^0.34.4",
+    "tailwindcss": "^3.4.17",
+    "vite": "^7.1.5"
   }
 }
