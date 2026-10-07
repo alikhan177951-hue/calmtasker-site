@@ -10,7 +10,7 @@ KaamTasker builds custom websites (bookings and other product features), native 
 
 ## Stack
 
-Vite + React + Tailwind CSS + Framer Motion. Static export lands in `dist/` with `index.html` at the root (Namecheap docroot).
+Vite + React + Tailwind CSS + Framer Motion. Static export lands in `dist/` with `index.html` at the root (Namecheap docroot). Hero uses word-stagger entrance; sections use scroll reveals and hover polish; all looping motion respects `prefers-reduced-motion`. Primary CTAs are lime `#E8EF6C` with dark ink `#06140F` text (never light-on-yellow).
 
 Brand files live in `public/brand/` (`logo.svg`, `logo.png`, icons, BIMI). Favicon, apple-touch, and Open Graph art are generated from those assets.
 

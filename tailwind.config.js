@@ -21,6 +21,7 @@ export default {
         ink: '#06140F',
         cream: '#F4F0E6',
         mist: '#D5E6DE',
+        sun: '#E8EF6C',
       },
       fontFamily: {
         sans: ['Outfit', 'ui-sans-serif', 'system-ui', 'sans-serif'],

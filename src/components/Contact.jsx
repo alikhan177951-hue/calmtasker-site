@@ -1,10 +1,10 @@
-import { AnimatePresence, motion } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import { CheckCircle2, Mail } from 'lucide-react'
 import { useState } from 'react'
-import Reveal from './Reveal.jsx'
+import { Cta, Reveal, motion, useReducedMotion } from './Motion.jsx'
 
 const fieldClass =
-  'rounded-2xl border border-cream/10 bg-ink/80 px-4 py-3 text-cream outline-none transition focus:border-forest-300/40 focus:ring-2 focus:ring-forest'
+  'rounded-2xl border border-cream/10 bg-ink/80 px-4 py-3 text-cream outline-none transition focus:border-sun/40 focus:ring-2 focus:ring-sun/40'
 
 function WhatsAppIcon({ size = 20 }) {
   return (
@@ -21,6 +21,7 @@ export default function Contact() {
   const [error, setError] = useState('')
   const [sending, setSending] = useState(false)
   const [sent, setSent] = useState(false)
+  const reduce = useReducedMotion()
 
   function update(event) {
     setValues((current) => ({ ...current, [event.target.name]: event.target.value }))
@@ -42,7 +43,7 @@ export default function Contact() {
 
     setError('')
     setSending(true)
-    await new Promise((resolve) => setTimeout(resolve, 650))
+    await new Promise((resolve) => setTimeout(resolve, reduce ? 120 : 650))
 
     try {
       const leads = JSON.parse(localStorage.getItem('kaamtasker-leads') || '[]')
@@ -56,11 +57,13 @@ export default function Contact() {
     setSent(true)
   }
 
+  const iconHover = reduce ? undefined : { scale: 1.08, y: -2 }
+
   return (
     <section id="contact" className="px-4 py-24 sm:px-6">
       <div className="mx-auto grid max-w-6xl gap-10 rounded-[2rem] border border-cream/10 bg-gradient-to-br from-forest/25 to-ink p-6 shadow-glow sm:p-10 lg:grid-cols-[0.9fr_1.1fr]">
         <Reveal>
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-forest-200">Start a project</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-sun">Start a project</p>
           <h2 className="mt-3 font-serif text-4xl text-cream sm:text-5xl">Tell us what you need to exist.</h2>
           <p className="mt-4 text-mist/85">
             A website that takes bookings. An iOS app. Android. A full product. Share a brief — we
@@ -71,9 +74,9 @@ export default function Contact() {
             <motion.a
               href="mailto:support@kaamtasker.com"
               aria-label="Email KaamTasker"
-              whileHover={{ scale: 1.08, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex h-12 w-12 items-center justify-center rounded-2xl bg-forest text-cream shadow-glow"
+              whileHover={iconHover}
+              whileTap={reduce ? undefined : { scale: 0.95 }}
+              className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sun text-ink shadow-[0_10px_28px_-12px_rgba(232,239,108,0.7)]"
             >
               <Mail size={20} />
             </motion.a>
@@ -82,9 +85,9 @@ export default function Contact() {
               aria-label="WhatsApp KaamTasker"
               target="_blank"
               rel="noreferrer"
-              whileHover={{ scale: 1.08, y: -2 }}
-              whileTap={{ scale: 0.95 }}
-              className="flex h-12 w-12 items-center justify-center rounded-2xl border border-forest-200/30 bg-ink text-forest-100"
+              whileHover={iconHover}
+              whileTap={reduce ? undefined : { scale: 0.95 }}
+              className="flex h-12 w-12 items-center justify-center rounded-2xl border border-forest-200/30 bg-ink text-sun"
             >
               <WhatsAppIcon />
             </motion.a>
@@ -96,16 +99,16 @@ export default function Contact() {
             {sent ? (
               <motion.div
                 key="success"
-                initial={{ opacity: 0, y: 16, scale: 0.98 }}
+                initial={reduce ? false : { opacity: 0, y: 16, scale: 0.98 }}
                 animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -12 }}
-                className="flex min-h-[28rem] flex-col items-start justify-center rounded-3xl border border-forest-200/20 bg-ink/60 p-8"
+                exit={reduce ? undefined : { opacity: 0, y: -12 }}
+                className="flex min-h-[28rem] flex-col items-start justify-center rounded-3xl border border-sun/20 bg-ink/60 p-8"
               >
                 <motion.span
-                  initial={{ scale: 0.6, opacity: 0 }}
+                  initial={reduce ? false : { scale: 0.6, opacity: 0 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ type: 'spring', stiffness: 260, damping: 16 }}
-                  className="flex h-14 w-14 items-center justify-center rounded-2xl bg-forest text-cream shadow-glow"
+                  className="flex h-14 w-14 items-center justify-center rounded-2xl bg-sun text-ink"
                 >
                   <CheckCircle2 size={28} />
                 </motion.span>
@@ -114,25 +117,22 @@ export default function Contact() {
                   Thanks{values.name ? `, ${values.name.split(' ')[0]}` : ''}. We have your project
                   notes and will follow up at {values.email}. Prefer a faster ping? Use the icons.
                 </p>
-                <motion.button
-                  type="button"
-                  whileHover={{ scale: 1.03, y: -2 }}
-                  whileTap={{ scale: 0.97 }}
+                <Cta
+                  className="mt-8"
                   onClick={() => {
                     setSent(false)
                     setValues(empty)
                   }}
-                  className="mt-8 rounded-full border border-cream/15 px-5 py-2.5 text-sm text-cream hover:bg-forest/20"
                 >
                   Send another brief
-                </motion.button>
+                </Cta>
               </motion.div>
             ) : (
               <motion.form
                 key="form"
-                initial={{ opacity: 0, y: 12 }}
+                initial={reduce ? false : { opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
+                exit={reduce ? undefined : { opacity: 0, y: -12 }}
                 className="grid gap-4"
                 onSubmit={onSubmit}
                 noValidate
@@ -191,15 +191,9 @@ export default function Contact() {
                 <div className="hidden" aria-hidden="true">
                   <input name="website" tabIndex={-1} autoComplete="off" />
                 </div>
-                <motion.button
-                  type="submit"
-                  disabled={sending}
-                  whileHover={sending ? undefined : { scale: 1.03, y: -2 }}
-                  whileTap={sending ? undefined : { scale: 0.97 }}
-                  className="shine rounded-full bg-forest px-6 py-3 font-semibold text-cream shadow-glow disabled:opacity-70"
-                >
+                <Cta type="submit" disabled={sending} className="inline-flex w-full">
                   {sending ? 'Sending brief…' : 'Send project brief'}
-                </motion.button>
+                </Cta>
                 <p className="text-xs text-mist/60" role="status" aria-live="polite">
                   {error || 'Lead form — we follow up from support@kaamtasker.com. Icons are for a direct ping.'}
                 </p>

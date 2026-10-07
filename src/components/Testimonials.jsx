@@ -1,5 +1,4 @@
-import { motion } from 'framer-motion'
-import Reveal from './Reveal.jsx'
+import { Reveal, Stagger, motion, staggerItem, useReducedMotion } from './Motion.jsx'
 
 const quotes = [
   {
@@ -20,38 +19,39 @@ const quotes = [
 ]
 
 export default function Testimonials() {
+  const reduce = useReducedMotion()
   return (
     <section id="testimonials" className="px-4 py-24 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <Reveal>
-          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-forest-200">Testimonials</p>
+          <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-sun">Testimonials</p>
           <h2 className="mt-3 font-serif text-4xl text-cream sm:text-5xl">What a partnership feels like.</h2>
           <p className="mt-4 max-w-2xl text-mist/80">
             These quotes are <strong className="text-cream">demo-labelled</strong> samples for layout
             and tone. They are not real client reviews.
           </p>
         </Reveal>
-        <div className="mt-12 grid gap-4 lg:grid-cols-3">
-          {quotes.map((quote, index) => (
-            <Reveal key={quote.name} delay={index * 0.1}>
-              <motion.blockquote
-                whileHover={{ y: -6, scale: 1.01 }}
-                className="flex h-full flex-col rounded-3xl border border-cream/10 bg-forest/10 p-6"
-              >
-                <p className="font-serif text-xl leading-relaxed text-cream">“{quote.text}”</p>
-                <footer className="mt-6 flex items-center justify-between gap-3 text-sm">
-                  <div>
-                    <cite className="not-italic text-cream">{quote.name}</cite>
-                    <p className="text-mist/70">{quote.role}</p>
-                  </div>
-                  <span className="rounded-full border border-forest-200/30 bg-forest/20 px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.16em] text-forest-100">
-                    Demo
-                  </span>
-                </footer>
-              </motion.blockquote>
-            </Reveal>
+        <Stagger className="mt-12 grid gap-4 lg:grid-cols-3">
+          {quotes.map((quote) => (
+            <motion.blockquote
+              key={quote.name}
+              variants={staggerItem}
+              whileHover={reduce ? undefined : { y: -6, scale: 1.01 }}
+              className="flex h-full flex-col rounded-3xl border border-cream/10 bg-forest/10 p-6"
+            >
+              <p className="font-serif text-xl leading-relaxed text-cream">“{quote.text}”</p>
+              <footer className="mt-6 flex items-center justify-between gap-3 text-sm">
+                <div>
+                  <cite className="not-italic text-cream">{quote.name}</cite>
+                  <p className="text-mist/70">{quote.role}</p>
+                </div>
+                <span className="rounded-full bg-sun px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.16em] text-ink">
+                  Demo
+                </span>
+              </footer>
+            </motion.blockquote>
           ))}
-        </div>
+        </Stagger>
       </div>
     </section>
   )
