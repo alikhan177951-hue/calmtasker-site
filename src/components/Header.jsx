@@ -29,7 +29,18 @@ export default function Header() {
     }
   }, [open])
 
-  const close = () => setOpen(false)
+  function close() {
+    setOpen(false)
+    document.body.style.overflow = ''
+  }
+
+  function go(href) {
+    close()
+    const id = href.replace('#', '')
+    window.requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    })
+  }
 
   return (
     <motion.header
@@ -39,7 +50,7 @@ export default function Header() {
       className="fixed inset-x-0 top-0 z-50 px-4 pt-4 sm:px-6"
     >
       <div
-        className={`mx-auto flex max-w-6xl items-center gap-3 rounded-2xl border px-3 py-2.5 backdrop-blur-xl transition-colors duration-500 sm:px-4 ${
+        className={`relative z-50 mx-auto flex max-w-6xl items-center gap-3 rounded-2xl border px-3 py-2.5 backdrop-blur-xl transition-colors duration-500 sm:px-4 ${
           scrolled ? 'border-forest-200/15 bg-ink/80 shadow-glow' : 'border-cream/10 bg-ink/40'
         }`}
       >
@@ -104,7 +115,10 @@ export default function Header() {
               <motion.a
                 key={link.href}
                 href={link.href}
-                onClick={close}
+                onClick={(event) => {
+                  event.preventDefault()
+                  go(link.href)
+                }}
                 initial={reduce ? false : { opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.05 + index * 0.05, duration: 0.4 }}
@@ -113,7 +127,14 @@ export default function Header() {
                 {link.label}
               </motion.a>
             ))}
-            <Cta href="#contact" onClick={close} className="mt-3 inline-flex w-full">
+            <Cta
+              href="#contact"
+              onClick={(event) => {
+                event.preventDefault()
+                go('#contact')
+              }}
+              className="mt-3 inline-flex w-full"
+            >
               Start a project
             </Cta>
           </motion.nav>
