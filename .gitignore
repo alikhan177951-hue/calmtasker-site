@@ -1,0 +1,7 @@
+node_modules
+.DS_Store
+*.log
+.sitemd
+sitemd/site
+sitemd/templates
+.vite
