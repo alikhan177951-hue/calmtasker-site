@@ -1859,6 +1859,8 @@
         document.querySelectorAll('.kt-landing section, .kt-tile, .kt-work article, .kt-quotes blockquote, .kt-steps li').forEach(function (el) {
           el.classList.add('kt-reveal');
           io.observe(el);
+          var rect = el.getBoundingClientRect();
+          if (rect.top < window.innerHeight * 0.92) el.classList.add('kt-in');
         });
       }
 
