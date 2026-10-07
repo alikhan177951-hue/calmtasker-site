@@ -8,7 +8,7 @@ headerAuth: hide
 items:
   - Services: /#services
   - Process: /#process
-  - Work: /#work
+  - Projects: /#projects
   - Clients: /#testimonials
   - Start a project: /#contact
 ---

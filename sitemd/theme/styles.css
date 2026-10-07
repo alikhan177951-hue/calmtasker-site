@@ -3278,7 +3278,7 @@ button:focus:not(:focus-visible) {
 
 .kt-landing section,
 .kt-landing .kt-tile,
-.kt-landing .kt-work article,
+.kt-landing .kt-project,
 .kt-landing .kt-quotes blockquote,
 .kt-landing .kt-steps li {
   scroll-margin-top: 5.5rem;
@@ -3286,8 +3286,9 @@ button:focus:not(:focus-visible) {
 
 .kt-reveal {
   opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 700ms ease, transform 700ms ease;
+  transform: translateY(22px) scale(0.985);
+  transition: opacity 720ms cubic-bezier(0.22, 1, 0.36, 1), transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--kt-stagger, 0) * 90ms);
 }
 
 .kt-reveal.kt-in {
@@ -3388,6 +3389,18 @@ button:focus:not(:focus-visible) {
 .kt-btn-ghost {
   border-color: var(--color-border);
   color: var(--color-text) !important;
+}
+
+.kt-btn-sm {
+  min-height: 2.45rem;
+  padding: 0 0.95rem;
+  font-size: 0.88rem;
+}
+
+.kt-btn-disabled {
+  opacity: 0.72;
+  cursor: default;
+  pointer-events: none;
 }
 
 .kt-stats {
@@ -3554,8 +3567,7 @@ button:focus:not(:focus-visible) {
   margin: 0 0 0.55rem;
 }
 
-.kt-bento,
-.kt-work {
+.kt-bento {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   gap: 1rem;
@@ -3563,7 +3575,6 @@ button:focus:not(:focus-visible) {
 }
 
 .kt-tile,
-.kt-work article,
 .kt-quotes blockquote {
   background: var(--color-bg-secondary);
   border: 1px solid var(--color-border);
@@ -3606,28 +3617,247 @@ button:focus:not(:focus-visible) {
   font-size: 0.8rem;
 }
 
-.kt-work {
-  grid-template-columns: repeat(2, 1fr);
+.kt-projects {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.15rem;
+  margin-top: 2.25rem;
 }
 
-.kt-visual {
-  height: 180px;
-  border-radius: 16px;
+.kt-project {
+  position: relative;
   display: flex;
-  align-items: flex-end;
-  padding: 0.9rem;
-  margin-bottom: 1rem;
-  color: #071416;
-  font-size: 0.78rem;
+  flex-direction: column;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 420ms ease;
+}
+
+.kt-project::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(circle at 30% 0%, color-mix(in srgb, var(--color-accent) 35%, transparent), transparent 55%);
+  transition: opacity 420ms ease;
+  z-index: 0;
+}
+
+.kt-project:hover {
+  transform: translateY(-8px);
+  border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+  box-shadow:
+    0 18px 40px rgba(0, 0, 0, 0.18),
+    0 0 0 1px color-mix(in srgb, var(--color-accent) 18%, transparent),
+    0 0 36px color-mix(in srgb, var(--color-accent) 16%, transparent);
+}
+
+.kt-project:hover::before {
+  opacity: 1;
+}
+
+.kt-project-visual {
+  position: relative;
+  height: 168px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.kt-project-orb {
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  filter: blur(8px);
+  opacity: 0.55;
+  background: color-mix(in srgb, #7ee3d2 70%, #0b6b4f);
+  top: -36px;
+  right: -24px;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), opacity 420ms ease;
+}
+
+.kt-orb-2 {
+  width: 100px;
+  height: 100px;
+  top: auto;
+  bottom: -28px;
+  left: -18px;
+  right: auto;
+  opacity: 0.35;
+  background: color-mix(in srgb, #0b6b4f 75%, #7ee3d2);
+}
+
+.kt-project:hover .kt-project-orb {
+  transform: translate3d(-8px, 6px, 0) scale(1.08);
+  opacity: 0.75;
+}
+
+.kt-project:hover .kt-orb-2 {
+  transform: translate3d(10px, -8px, 0) scale(1.12);
+}
+
+.kt-pv-cmr { background: linear-gradient(145deg, #0b6b4f 0%, #123d36 48%, #071416 100%); }
+.kt-pv-kt { background: linear-gradient(145deg, #0f766e 0%, #0b6b4f 42%, #0a2420 100%); }
+.kt-pv-bob { background: linear-gradient(145deg, #3f7a5c 0%, #1c4030 50%, #0b1b16 100%); }
+.kt-pv-shift { background: linear-gradient(145deg, #1c5144 0%, #0c2f28 55%, #071416 100%); }
+.kt-pv-reserve { background: linear-gradient(145deg, #2a6b5a 0%, #143d36 50%, #0a1f1c 100%); }
+.kt-pv-fleet { background: linear-gradient(145deg, #355a6a 0%, #1c4030 48%, #071416 100%); }
+
+.kt-project-mock {
+  position: absolute;
+  inset: auto 18px 16px auto;
+  width: min(58%, 168px);
+  border-radius: 14px;
+  border: 1px solid rgba(126, 227, 210, 0.28);
+  background: color-mix(in srgb, #071416 72%, transparent);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+  padding: 0.7rem;
+  display: grid;
+  gap: 0.4rem;
+  transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.kt-project:hover .kt-project-mock {
+  transform: translateY(-6px) scale(1.03);
+}
+
+.kt-mock-phone {
+  width: 78px;
+  inset: auto 22px 14px auto;
+  border-radius: 18px;
+  aspect-ratio: 9 / 16;
+  height: 126px;
+}
+
+.kt-mock-web,
+.kt-mock-market,
+.kt-mock-pwa,
+.kt-mock-book,
+.kt-mock-dash {
+  height: 108px;
+}
+
+.kt-project-mock b,
+.kt-project-mock i {
+  display: block;
+  border-radius: 7px;
+  background: rgba(126, 227, 210, 0.18);
+}
+
+.kt-project-mock b {
+  height: 10px;
+  width: 42%;
+  background: #7ee3d2;
+}
+
+.kt-project-mock i {
+  height: 8px;
+  width: 88%;
+}
+
+.kt-project-mock i:nth-of-type(2) { width: 72%; }
+.kt-project-mock i:nth-of-type(3) { width: 58%; opacity: 0.7; }
+
+.kt-project-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1.2rem 1.25rem 1.35rem;
+  flex: 1;
+}
+
+.kt-project-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.kt-tag,
+.kt-status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.55rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.kt-va { background: linear-gradient(135deg, #7ee3d2, #3d8f86); }
-.kt-vb { background: linear-gradient(135deg, #d9c4a3, #8a6d4a); }
-.kt-vc { background: linear-gradient(135deg, #9ad0b0, #3f7a5c); }
-.kt-vd { background: linear-gradient(135deg, #8fb8c9, #355a6a); }
+.kt-tag {
+  background: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  color: var(--color-accent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 28%, transparent);
+}
+
+.kt-status-live {
+  background: color-mix(in srgb, #7ee3d2 88%, #fff);
+  color: #071416;
+}
+
+.kt-status-study,
+.kt-status-soon {
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  background: transparent;
+}
+
+.kt-project h3 {
+  margin: 0;
+  font-size: 1.18rem;
+}
+
+.kt-project p {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+  flex: 1;
+}
+
+.kt-project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.35rem;
+}
+
+.kt-project .kt-btn-primary {
+  background: #9af0d8;
+  color: #071416 !important;
+}
+
+.kt-project .kt-btn-primary:hover {
+  background: #b7f7e4;
+}
+
+.kt-project-example {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--color-bg-secondary) 92%, transparent), var(--color-bg-secondary));
+}
+
+[data-theme="light"] .kt-status-live {
+  background: #c8f5eb;
+  color: #0b3d34;
+}
+
+[data-theme="light"] .kt-project:hover {
+  box-shadow:
+    0 16px 34px rgba(11, 107, 79, 0.12),
+    0 0 0 1px color-mix(in srgb, #0b6b4f 12%, transparent),
+    0 0 28px color-mix(in srgb, #0b6b4f 10%, transparent);
+}
 
 .kt-quotes {
   display: grid;
@@ -3709,10 +3939,16 @@ button:focus:not(:focus-visible) {
   padding: 4rem 1rem 6rem;
 }
 
+@media (max-width: 1024px) {
+  .kt-projects {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 900px) {
   .kt-hero,
   .kt-bento,
-  .kt-work,
+  .kt-projects,
   .kt-quotes,
   .kt-cta-grid,
   .kt-steps,
@@ -3733,6 +3969,22 @@ button:focus:not(:focus-visible) {
   .kt-tile-wide {
     grid-column: auto;
     grid-row: auto;
+  }
+
+  .kt-project:hover {
+    transform: translateY(-4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kt-project,
+  .kt-project-orb,
+  .kt-project-mock {
+    transition: none;
+  }
+
+  .kt-project:hover {
+    transform: none;
   }
 }
 

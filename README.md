@@ -47,4 +47,4 @@ This repo still **uses SiteMD** to generate HTML (same `build()` pipeline as `si
 
 ## Content
 
-Homepage sections: hero, services (websites with bookings/custom features, iOS, Android, software), process, portfolio placeholders, demo-labelled testimonials, contact, footer.
+Homepage sections: hero, services (websites with bookings/custom features, iOS, Android, software), process, projects / portfolio (live work + labelled case-study examples), demo-labelled testimonials, contact, footer.

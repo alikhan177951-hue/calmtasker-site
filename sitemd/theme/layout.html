@@ -1814,7 +1814,9 @@
             }
           });
         }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-        document.querySelectorAll('.kt-landing section, .kt-tile, .kt-work article, .kt-quotes blockquote, .kt-steps li').forEach(function (el) {
+        document.querySelectorAll('.kt-landing section, .kt-tile, .kt-project, .kt-quotes blockquote, .kt-steps li').forEach(function (el) {
+          var stagger = el.getAttribute('data-stagger');
+          if (stagger !== null) el.style.setProperty('--kt-stagger', stagger);
           el.classList.add('kt-reveal');
           io.observe(el);
           var rect = el.getBoundingClientRect();
