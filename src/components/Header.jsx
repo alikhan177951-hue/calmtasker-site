@@ -98,7 +98,7 @@ export default function Header() {
             animate={{ opacity: 1, x: 0 }}
             exit={reduce ? undefined : { opacity: 0, x: 28 }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-x-4 top-[5.25rem] z-50 overflow-hidden rounded-2xl border border-cream/10 bg-ink/95 p-4 shadow-glow backdrop-blur-xl md:hidden"
+            className="fixed inset-x-0 top-0 z-40 flex h-[100dvh] flex-col justify-center gap-1 overflow-hidden bg-ink/97 px-6 pb-10 pt-24 backdrop-blur-xl md:hidden"
           >
             {links.map((link, index) => (
               <motion.a
