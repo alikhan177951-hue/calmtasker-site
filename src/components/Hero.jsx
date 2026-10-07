@@ -34,7 +34,7 @@ export default function Hero() {
             className="max-w-3xl font-serif text-4xl leading-[1.08] text-cream sm:text-6xl lg:text-[4.25rem]"
           >
             Websites, apps, and software —{' '}
-            <em className="text-forest-200">built with calm precision.</em>
+            <em className="text-[#3FA57F]">built with calm precision.</em>
           </motion.h1>
 
           <motion.p
